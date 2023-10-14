@@ -17,39 +17,50 @@ bash install.sh
 ```
 
 ## Data Preparation
-   ```
-   ${YOUR_DATASETS_ROOT}
-        -- lasot
-            |-- airplane
-            ...
-        -- got10k
-            |-- test
-            |-- train
-            |-- val
-        -- coco
-            |-- annotations
-            |-- images
-        -- trackingnet
-            |-- TRAIN_0
-            ...
-            |-- TRAIN_11
-            |-- TEST
-        -- ...
-   ```
-## Set project paths
+   Follow [stark](https://github.com/researchmm/Stark) and [ostrack](https://github.com/botaoye/OSTrack) frameworks to set your datasets
 
-Go to these two files, and modify the paths
+## File directory
+
+Project file directory should be like
+
+   ```
+   ${YOUR_PROJECT_ROOT}
+        -- experiments
+            |-- lightfc
+        -- external
+            |-- vot20st
+        -- lib
+            |--models
+            ...
+        -- outputs (download and unzip the output.zip to obtain our checkpoints and row results)
+            |--checkpoints
+                |--...
+            |--test
+                |--...
+        -- pretrained_models (if you want to train lightfc, put pretrained model here)
+            |--mobilenetv2.pth (from torchvision model)
+            ...    
+        -- tracking
+            ...
+   ```
+
+Download checkpoint and raw results at [Google Drive](https://drive.google.com/file/d/1ns7NQJCt078547X483skqjX1qM1rBqLP/view)
+
+
+Then go to these two files, and modify the paths
 ```
 lib/train/admin/local.py  # paths about training
 lib/test/evaluation/local.py  # paths about testing
 ```
 
+
 ## Train LightFC
 Training with multiple GPUs using DDP
-
 ```
 python tracking/train.py --script LightFC --config mobilnetv2_p_pwcorr_se_scf_sc_iab_sc_adj_concat_repn33_se_conv33_center_wiou --save_dir . --mode multiple --nproc_per_node 2 
 ```
+If you want to train lightfc, please download https://download.pytorch.org/models/mobilenet_v2-b0353104.pth rather than https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth
+
 
 ## Test and evaluate LightFC on benchmarks
 Go to **tracking/test.py** and modify the parameters
@@ -57,7 +68,7 @@ Go to **tracking/test.py** and modify the parameters
 python tracking/test.py
 ```
 
-Then Go to **tracking/analysis_results.py** and modify the parameters
+Then go to **tracking/analysis_results.py** and modify the parameters
 ```
 python tracking/analysis_results.py
 ```

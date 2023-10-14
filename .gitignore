@@ -1,11 +1,12 @@
 *.idea
 *~
 *.jpg
-*.ini
 *__pycache__*
 *.pyc
 *.txt
 *.vscode
+*.zip
+*.7z
 *.pytest_cache
 *.bin
 *.csv
@@ -22,8 +23,8 @@
 /checkpoints
 /test
 /pretrained_models
-/external/vot20st
+/external/vot20st/lightfc/sequences
+/external/vot20st/lightfc/results
 /external/vot19st
 /external/draw
-/lib/test/vot_utils
 /dev
