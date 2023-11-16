@@ -7,17 +7,9 @@ import numpy as np
 from lib.models import *
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-from lib.train.loss.box_loss import giou_loss
-
-from torch.nn.functional import l1_loss
-from lib.models.ostrack import build_ostrack
 from lib.train.actors import *
-from lib.train.actors.ostrack import OSTrackActor
 from lib.train.data.base_functions import *
-from lib.train.loss.focal_loss import FocalLoss
 from lib.train.trainers import LTRTrainer
-from lib.models.lightfc.trackerModel import TRACKER_REGISTRY
-from lib.models.lightTrackST.trackerModel import TRACKER_REGISTRY
 from lib.utils.load import load_yaml
 from lib.train.loss import lightTrackObjective
 
@@ -50,11 +42,8 @@ def run(settings):
 
     # Create network
     if settings.script_name == "lightfc":
-        net = TRACKER_REGISTRY.get('lightfc')(cfg, env_num=settings.env_num, training=True)
-    elif settings.script_name == "lightfc_st":
-        net = TRACKER_REGISTRY.get('lightfc_st')(cfg, env_num=settings.env_num, training=True)
-    elif settings.script_name == "ostrack":
-        net = build_ostrack(cfg)
+        net = LightFC(cfg, env_num=settings.env_num, training=True)
+
     else:
         raise ValueError("illegal script name")
 
@@ -76,17 +65,6 @@ def run(settings):
         objective = lightTrackObjective(cfg)
         loss_weight = {'iou': cfg.TRAIN.GIOU_WEIGHT, 'l1': cfg.TRAIN.L1_WEIGHT, 'focal': cfg.TRAIN.LOC_WEIGHT, }
         actor = lightTrackActor(net=net, objective=objective, loss_weight=loss_weight, settings=settings, cfg=cfg)
-
-    elif settings.script_name == "lightfc_st":
-        objective = lightTrackObjective(cfg)
-        loss_weight = {'iou': cfg.TRAIN.GIOU_WEIGHT, 'l1': cfg.TRAIN.L1_WEIGHT, 'focal': cfg.TRAIN.LOC_WEIGHT, }
-        actor = lightTrackSTActor(net=net, objective=objective, loss_weight=loss_weight, settings=settings, cfg=cfg)
-
-    elif settings.script_name == "ostrack":
-        focal_loss = FocalLoss()
-        objective = {'giou': giou_loss, 'l1': l1_loss, 'focal': focal_loss}
-        loss_weight = {'giou': cfg.TRAIN.GIOU_WEIGHT, 'l1': cfg.TRAIN.L1_WEIGHT, 'focal': 1.}
-        actor = OSTrackActor(net=net, objective=objective, loss_weight=loss_weight, settings=settings, cfg=cfg)
 
     else:
         raise ValueError("illegal script name")

@@ -50,13 +50,13 @@ MODEL:
   NECK:
     USE_NECK: False
   FUSION:
-    TYPE: 'pwCorr_SE_FFN_next_concat'
+    TYPE: 'pwcorr_se_scf_sc_iab_sc_concat'
     CHANNEL: 96
     PARAMS:
       num_kernel: 64
       adj_channel: 96
   HEAD:
-    TYPE: 'repn_33_half_se_center_concat'
+    TYPE: 'repn33_se_center_concat'
     CHANNEL: 96
     PARAMS:
       inplanes: 192

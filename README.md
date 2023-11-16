@@ -5,7 +5,7 @@ The official implementation of LightFC
 ## News
 
 - 14 Oct 2023:  our code is available now
-- 09  Oct 2023:  our manuscript have submitted to [arxiv](https://arxiv.org/abs/2310.05392)
+- 09 Oct 2023:  our manuscript have submitted to [arxiv](https://arxiv.org/abs/2310.05392)
 
 ## Install the environment
 

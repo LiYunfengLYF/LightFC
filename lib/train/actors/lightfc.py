@@ -5,9 +5,7 @@ from ..loss.cos_sim_loss import cosine_similarity_loss
 from ...utils.box_ops import box_xywh_to_xyxy, box_cxcywh_to_xyxy
 from ...utils.heapmap_utils import generate_heatmap
 import torchvision.transforms as transforms
-'''
-vot initialize vot2020 --workspace /home/liyunfeng/coda2/tracker-lightweight/external/vot20
-'''
+
 
 class lightTrackActor(BaseActor):
     def __init__(self, net, objective, loss_weight, settings, cfg=None):
@@ -74,11 +72,7 @@ class lightTrackActor(BaseActor):
         else:
             location_loss = torch.tensor(0.0, device=l1_loss.device)
 
-        # cos_sim_loss
-        # try:
-        #     compute_tri_loss = self.compute_tri_loss(bs, pred_dict, gt_gaussian_maps_flatten)
-        # except:
-        #     compute_tri_loss = torch.tensor(0.0, device=l1_loss.device)
+
 
         # weighted sum
         loss = self.loss_weight['iou'] * iou_loss + self.loss_weight['l1'] * l1_loss + self.loss_weight[
@@ -100,85 +94,3 @@ class lightTrackActor(BaseActor):
             return loss, status
         else:
             return loss
-
-    # def compute_cos_sim_loss(self, bs, pred_dict, gt_gaussian_maps):
-    #
-    #     cos_sim_loss_list = []
-    #     for i in range(bs):
-    #         # Negtive
-    #         response_item = (pred_dict['score_map'][i] + CORE1_REGION.to(pred_dict['score_map'].device))
-    #         response_item_flatten = response_item.flatten(1)
-    #         topk_values, topk_indices = torch.topk(response_item_flatten, k=5, largest=True)
-    #
-    #         max_value = torch.max(pred_dict['score_map'][i])
-    #
-    #         # print(pred_dict['opt_feat']['cls'].shape)
-    #         feature_item = pred_dict['opt_feat']['cls'][i]
-    #         feature_item_flatten = feature_item.flatten(1)
-    #
-    #         # Postive
-    #         gt_item = gt_gaussian_maps[i]
-    #         gt_item_flatten = gt_item.flatten(1)
-    #         _, gt_idx = torch.max(gt_item_flatten, dim=1, keepdim=True)
-    #         pos = feature_item_flatten[:, gt_idx].flatten(0).unsqueeze(dim=0)
-    #
-    #         for id, indice in enumerate(topk_indices[0]):
-    #             # print(topk_values[0][id])
-    #             if float(topk_values[0][id]) < 0.7 * max_value:
-    #                 continue
-    #             ne = feature_item_flatten[:, indice].unsqueeze(dim=0)
-    #             loss = cosine_similarity_loss(pos, ne, margin=0.0)
-    #             cos_sim_loss_list.append(loss)
-    #     return sum(cos_sim_loss_list) / len(cos_sim_loss_list)
-    #
-    # def compute_tri_loss(self, bs, pred_dict, gt_gaussian_maps):
-    #
-    #     tri_loss_list = []
-    #     for i in range(bs):
-    #         # idx
-    #         response_item = (pred_dict['score_map'][i] + CORE1_REGION.to(pred_dict['score_map'].device))
-    #         response_item_flatten = response_item.flatten(1)
-    #         topk_values, topk_indices = torch.topk(response_item_flatten, k=5, largest=True)
-    #
-    #         max_value = torch.max(pred_dict['score_map'][i])
-    #
-    #         feature_item = pred_dict['x_feat'][i]
-    #         feature_item_flatten = feature_item.flatten(1)
-    #
-    #         # Anchor
-    #         anchor = self.avg_pooling(pred_dict['z_feat']).flatten(2).squeeze(dim=2)[i]
-    #
-    #         # Postive
-    #         gt_item = gt_gaussian_maps[i]
-    #         gt_item_flatten = gt_item.flatten(1)
-    #         _, gt_idx = torch.max(gt_item_flatten, dim=1, keepdim=True)
-    #         pos = feature_item_flatten[:, gt_idx].flatten(0)  # .unsqueeze(dim=0)
-    #
-    #         for id, indice in enumerate(topk_indices[0]):
-    #             if float(topk_values[0][id]) < 0.7 * max_value:
-    #                 continue
-    #             ne = feature_item_flatten[:, indice]
-    #             tri_loss_list.append(self.triple(anchor, pos, ne))
-    #     return sum(tri_loss_list) / len(tri_loss_list)
-
-# CORE1_REGION = torch.tensor([
-#     [
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ],
-#     ]
-# ])

@@ -24,7 +24,7 @@ class LightFC(nn.Module):
                                             freeze_bn=cfg.MODEL.HEAD.PARAMS.freeze_bn,
                                             )
 
-    def forward(self, z, x, train=False):
+    def forward(self, z, x):
         if self.training:
             z = self.backbone(z)
             x = self.backbone(x)

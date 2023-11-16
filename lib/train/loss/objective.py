@@ -40,11 +40,3 @@ class lightTrackObjective(object):
         elif cfg.TRAIN.CLS_LOSS == 'varifocal':
             self.focal_loss = VarifocalLoss()
 
-
-        # distractor aware
-
-        # if cfg.TRAIN.TRIPLET_LOSS == 'triplet':
-        #     self.triple_loss = nn.TripletMarginLoss(margin=1, p=2, reduction='mean')
-
-    # def compute_triple_loss(self, gt_gaussion_maps, pred_maps,):
-    #     pass

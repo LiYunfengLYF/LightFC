@@ -190,7 +190,6 @@ def extract_results(trackers, dataset, report_name, skip_missing_seq=False, plot
 
     return eval_data
 
-
 # if __name__ == '__main__':
 #     a = np.loadtxt(
 #         r'E:\winfred\pytracking-winfred\output\test/tracking_results/ostrack/vitb_256_mae_ce_32x4_ep300/otb/Basketball.txt',
