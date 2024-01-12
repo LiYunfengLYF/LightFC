@@ -40,7 +40,7 @@ def for_test():
     parser.add_argument('--runid', type=int, default=None, help='The run id.')
     parser.add_argument('--sequence', type=str, default=None, help='Sequence number or name.')
     # parser.add_argument('--debug', type=int, default=1, help='Debug level.')
-    parser.add_argument('--debug', type=int, default=1, help='Debug level.')
+    parser.add_argument('--debug', type=int, default=0, help='Debug level.')
     # parser.add_argument('--threads', type=int, default=0, help='Number of threads.')
     parser.add_argument('--threads', type=int, default=0, help='Number of threads.')
     parser.add_argument('--num_gpus', type=int, default=1)
@@ -54,8 +54,11 @@ def for_test():
         seq_name = args.sequence
 
     tracker_list = [
+        # {'name': 'lightfc',
+        #  'param': 'mobilnetv2_p_pwcorr_se_scf_sc_iab_sc_adj_concat_repn33_se_conv33_center_wiou'
+        #  },
         {'name': 'lightfc',
-         'param': 'mobilnetv2_p_pwcorr_se_scf_sc_iab_sc_adj_concat_repn33_se_conv33_center_wiou'
+         'param': 'baseline_v1_release_backbone_tinyvit'
          },
     ]
 

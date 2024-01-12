@@ -6,7 +6,7 @@ The official implementation of LightFC
 
 - 14 Oct 2023:  our code is available now
 - 09 Oct 2023:  our manuscript have submitted to [arxiv](https://arxiv.org/abs/2310.05392)
-
+- 12 Jan 2024:  lightfc-vit with higher performance is released !
 ## Install the environment
 
 **Option1**: Use the Anaconda
@@ -44,8 +44,9 @@ Project file directory should be like
             ...
    ```
 
-Download checkpoint and raw results at [Google Drive](https://drive.google.com/file/d/1ns7NQJCt078547X483skqjX1qM1rBqLP/view)
+Download lightfc checkpoint and raw results at [Google Drive](https://drive.google.com/file/d/1ns7NQJCt078547X483skqjX1qM1rBqLP/view)
 
+Download lightfc-vit checkpoint and raw results at [Google Drive](https://drive.google.com/file/d/1J4ubpqN4yKjETiHkVEsP2M_9xHEfS8nR/view?usp=sharing)
 
 Then go to these two files, and modify the paths
 ```

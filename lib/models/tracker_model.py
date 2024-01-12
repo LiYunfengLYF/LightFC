@@ -1,5 +1,5 @@
 import torch.nn as nn
-from lib.models.lightfc import MobileNetV2, pwcorr_se_scf_sc_iab_sc_concat, repn33_se_center_concat
+from lib.models.lightfc import MobileNetV2, tiny_vit_5m_224, pwcorr_se_scf_sc_iab_sc_concat, repn33_se_center_concat
 from lib.utils.load import load_pretrain
 
 
@@ -7,14 +7,16 @@ class LightFC(nn.Module):
     def __init__(self, cfg, env_num=0, training=False, ):
         super(LightFC, self).__init__()
 
-        self.backbone = MobileNetV2()
-
+        if cfg.MODEL.BACKBONE.TYPE == 'MobileNetV2':
+            self.backbone = MobileNetV2()
+        elif cfg.MODEL.BACKBONE.TYPE == 'tiny_vit_5m_224':
+            self.backbone = tiny_vit_5m_224()
         self.training = training
         if self.train:
             load_pretrain(self.backbone, env_num=env_num, training=training, cfg=cfg, mode=cfg.MODEL.BACKBONE.LOAD_MODE)
 
-        self.fusion = pwcorr_se_scf_sc_iab_sc_concat(num_kernel=64,
-                                                     adj_channel=96
+        self.fusion = pwcorr_se_scf_sc_iab_sc_concat(num_kernel=cfg.MODEL.FUSION.PARAMS.num_kernel,
+                                                     adj_channel=cfg.MODEL.FUSION.PARAMS.adj_channel
                                                      )
 
         self.head = repn33_se_center_concat(inplanes=cfg.MODEL.HEAD.PARAMS.inplanes,
