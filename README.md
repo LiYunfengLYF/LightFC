@@ -62,6 +62,7 @@ Training with multiple GPUs using DDP
 python tracking/train.py --script LightFC --config mobilnetv2_p_pwcorr_se_scf_sc_iab_sc_adj_concat_repn33_se_conv33_center_wiou --save_dir . --mode multiple --nproc_per_node 2 
 ```
 If you want to train lightfc, please download https://download.pytorch.org/models/mobilenet_v2-b0353104.pth rather than https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth
+
 if you want to train lightfc-vit, please download https://github.com/wkcn/TinyViT-model-zoo/releases/download/checkpoints/tiny_vit_5m_22k_distill.pth
 
 ## Test and evaluate LightFC on benchmarks
