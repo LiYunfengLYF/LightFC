@@ -46,7 +46,8 @@ Project file directory should be like
 
 Download lightfc checkpoint and raw results at [Google Drive](https://drive.google.com/file/d/1ns7NQJCt078547X483skqjX1qM1rBqLP/view)
 
-Download lightfc-vit checkpoint and raw results at [Google Drive](https://drive.google.com/file/d/1J4ubpqN4yKjETiHkVEsP2M_9xHEfS8nR/view?usp=sharing)
+Download lightfc-vit checkpoint and raw results at [Google Drive](https://drive.google.com/file/d/1tckIW9P0RFheAAoGoSZR9Lgnet7-HNOL/view?usp=sharing)
+
 
 Then go to these two files, and modify the paths
 ```
@@ -61,7 +62,7 @@ Training with multiple GPUs using DDP
 python tracking/train.py --script LightFC --config mobilnetv2_p_pwcorr_se_scf_sc_iab_sc_adj_concat_repn33_se_conv33_center_wiou --save_dir . --mode multiple --nproc_per_node 2 
 ```
 If you want to train lightfc, please download https://download.pytorch.org/models/mobilenet_v2-b0353104.pth rather than https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth
-
+if you want to train lightfc-vit, please download https://github.com/wkcn/TinyViT-model-zoo/releases/download/checkpoints/tiny_vit_5m_22k_distill.pth
 
 ## Test and evaluate LightFC on benchmarks
 Go to **tracking/test.py** and modify the parameters
